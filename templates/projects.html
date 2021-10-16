@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content="width=device-width, initial-scale=1">
+    <title>H8 Model Deployment</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <style>
+    body, html {
+        height: 100%;
+        width:100%;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .fa-bars:hover {
+        color: grey !important;;
+    }
+
+    .dropdown-toggle::after {
+        display: none;
+    }
+    .footer {
+        position: relative;
+        left: 0;
+        right:0;
+        bottom: 0;
+        width: auto; 
+        padding: 1rem 1rem;
+        background-color: rgb(0, 0, 0);
+        color: white;
+        text-align: center;
+        height:50px;
+    }
+    .container {
+        position: relative;
+        width: 50%;
+    }
+      
+      .image {
+        opacity: 1;
+        display: block;
+        width: 100%;
+        height: auto;
+        transition: .5s ease;
+        backface-visibility: hidden;
+      }
+      
+      .middle {
+        transition: .5s ease;
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;
+      }
+      
+      .cons2:hover .image, .cons1:hover .image {
+        opacity: 0.3;
+      }
+      
+      .cons2:hover .middle, .cons1:hover .middle {
+        opacity: 1;
+      }
+      #mySidenav a {
+        position: fixed;
+        left: -30px;
+        transition: 0.3s;
+        padding: 15px;
+        width: 50px;
+        text-decoration:none;
+        font-size: 20px;
+        color: white;
+        border-radius: 0 5px 5px 0;
+      }
+      
+      #mySidenav a:hover {
+        left: 0;
+      }
+      
+      #about {
+        top: 70px;
+        width:200px;
+        background-color: #238AFF;
+      }
+      
+      #blog {
+        top: 130px;
+        background-color: #0B0D0E;
+      }
+  </style>
+</head>
+<body style="overflow-x: hidden; margin-bottom: 25px;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <i class="fas fa-plane fa-2x" style="color: white; margin-right:1%"></i><a class="navbar-brand" href="#" color="black">Airline Passenger Satisfaction</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="navbar-nav" style="margin-left: 74%;">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle " href="#" id="navbardrop" data-toggle="dropdown">
+                <i class="fas fa-bars fa-2x" aria-hidden="true" style="color: white; margin-right:1%"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="/">Home</a>
+                <a class="dropdown-item" href="/summary">Summary</a>
+                <a class="dropdown-item" href="/visualization">Visualization</a>
+                <a class="dropdown-item" href="/correlatiion">Correlation</a>
+                <a class="dropdown-item" href="/prediction">Prediction</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <div id="mySidenav" class="sidenav">
+        <a href="https://www.linkedin.com/in/jofawj/" id="about"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://github.com/jofawj" id="blog"><i class="fab fa-github"></i></a>
+      </div>
+    <div class="container">
+        <div class="row text-center" style="align-items: center;">
+            <div class="col-md-6 ml-5 cons1">
+                <div class="card" style="width: 22rem; margin-top:5%;">
+                    <img class="card-img-top image" src="/static/images/projects1.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <a class="btn btn-primary btn-block middle" href="https://achmadnaufalwj-p1mls1.herokuapp.com/" role="button">Link</a>
+                        <p class="card-text">Small website for predicting Customer's Supscription in Portuguese Banking Institution </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 cons2">
+                <div class="card" style="width: 22rem; margin-top:6%;">
+                    <img class="card-img-top image" src="/static/images/projects2.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <a class="btn btn-primary btn-block middle" href="https://achmadnaufalwj-002.herokuapp.com/" role="button">Link</a>
+                        <p class="card-text">Small dashboard for Supermarket sales in 3 differents Myanmar Supermarket for 3 months Data</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="text-center footer" style="margin-top: 2%;">
+      <p class="column">© Copyright JofaWJ - 2021</p>
+    </div>
+</body>
+
+
+
+</html>

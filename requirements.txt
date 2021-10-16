@@ -1,0 +1,8 @@
+Flask
+sklearn
+numpy
+plotly
+datetime
+pandas
+xgboost
+gunicorn

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>H8 Model Deployment</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <style>
+        body, html {
+            height: 100%;
+            width:100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .fa-bars:hover {
+            color: grey !important;;
+        }
+        .dropdown-toggle::after {
+            display: none;
+        }
+        .footer {
+            position: relative;
+            left: 0;
+            right:0;
+            bottom: 0;
+            width: auto; 
+            padding: 1rem 1rem;
+            background-color: rgb(0, 0, 0);
+            color: white;
+            text-align: center;
+            height:50px;
+          }
+    </style>
+    <script>
+        function cb(selection){
+            $.getJSON({
+                url: "/callback", data: {'data': selection}, success: function (result){
+                    Plotly.newPlot('chart', result[0], {});;
+                    Plotly.newPlot('chart2', result[1], {});;
+                    Plotly.newPlot('chart3', result[2], {});;
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <i class="fas fa-plane fa-2x" style="color: white; margin-right:1%"></i><a class="navbar-brand" href="#" color="black">Airline Passenger Satisfaction</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav" style="margin-left: 74%;">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle " href="#" id="navbardrop" data-toggle="dropdown">
+            <i class="fas fa-bars fa-2x" aria-hidden="true" style="color: white; margin-right:1%"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="/">Home</a>
+            <a class="dropdown-item" href="/summary">Summary</a>
+            <a class="dropdown-item" href="/visualization">Visualization</a>
+            <a class="dropdown-item" href="/prediction">Prediction</a>
+            <a class="dropdown-item" href="/projects">Other Projects</a>
+            </div>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <h1 class="text-center" style="font-weight:bold; margin-top:3%">Correlation for Each Data</h1>
+    <div class="row" style="margin-top:1%; margin-left:1%">
+        <div class="col-md-12">
+            <div class="chart h-1000" id="chart" style="font-size: 12;">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="chart3 h-1000" id="chart3" style="font-size: 12;">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="chart2 h-1000" id="chart2" style="font-size: 12;">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center footer" style="margin-top: 2%;">
+    <p class="column">© Copyright JofaWJ - 2021</p>
+</div>
+<script src="{{ url_for('static', filename='js/jquery-1.11.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plots.js') }}"></script>
+<script>
+    var layout = {
+        title: 'Correlation Heatmap',
+        autosize: false,
+        width : 1000,
+        height : 800,
+        font: {
+            family: 'Arial',
+            size: 12,
+        },
+        yaxis: {
+            automargin: true
+        },
+        xaxis: {
+            automargin: true
+        }
+    };
+    var layout2 = {
+        title: 'Correlation to Satisfaction',
+        autosize: false,
+        width : 400,
+        height : 800,
+        font: {
+            family: 'Arial',
+            size: 12,
+        },
+        yaxis: {
+            automargin: true
+        },
+        xaxis: {
+            automargin: true,
+            title : "correlation"
+        }
+    };
+    var layout3 = {
+        title: 'Feature Importance',
+        autosize: false,
+        height : 800,
+        font: {
+            family: 'Arial',
+            size: 12,
+        },
+        yaxis: {
+            automargin: true
+        },
+        xaxis: {
+            automargin: true,
+        }
+    };
+    d = {{ graphJSON | safe}};
+    Plotly.newPlot('chart', d[0], layout);
+    Plotly.newPlot('chart2', d[1], layout2);
+    Plotly.newPlot('chart3', d[2], layout3);
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>H8 Model Deployment</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <style>
+        body, html {
+            height: 100%;
+            width:100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .fa-bars:hover {
+            color: grey !important;;
+        }
+    
+        .dropdown-toggle::after {
+            display: none;
+        }
+        .footer {
+            position: relative;
+            left: 0;
+            right:0;
+            bottom: 0;
+            width: auto; 
+            padding: 1rem 1rem;
+            background-color: rgb(0, 0, 0);
+            color: white;
+            text-align: center;
+            height:50px;
+          }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <i class="fas fa-plane fa-2x" style="color: white; margin-right:1%"></i><a class="navbar-brand" href="#" color="black">Airline Passenger Satisfaction</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="navbar-nav" style="margin-left: 74%;">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle " href="#" id="navbardrop" data-toggle="dropdown">
+                <i class="fas fa-bars fa-2x" aria-hidden="true" style="color: white; margin-right:1%"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="/">Home</a>
+                <a class="dropdown-item" href="/summary">Summary</a>
+                <a class="dropdown-item" href="/correlation">Correlation</a>
+                <a class="dropdown-item" href="/prediction">Prediction</a>
+                <a class="dropdown-item" href="/projects">Other Projects</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+<div class="container">
+    <h1 class="text-center" style="font-weight:bold; margin-top:3%">Visualization Data</h1>
+    <div class="row" style="margin-top:5%">
+        <div class="col-md-12">
+            <label> Choose the plot type....</label>
+            <select class="form-control" id ='first_cat'>
+                <option value="satisfaction">Satisfaction</option>
+                <option value="Gender">Gender</option>
+                <option value="customer_type">Customer Type</option>
+                <option value="age">Age</option>
+                <option value="type_of_travel">Type of Travel</option>
+                <option value="customer_class">Customer Class</option>
+                <option value="flight_distance">Flight Distance</option>
+                <option value="inflight_wifi_service">Inflight Wifi Service</option>
+                <option value="departure_arrival_time_convenient">Departure Arrival Time Convenient</option>
+                <option value="ease_of_online_booking">Ease of Online Booking</option>
+                <option value="gate_location">Gate Location</option>
+                <option value="food_and_drink">Food and Drink</option>
+                <option value="online_boarding">Online Boarding</option>
+                <option value="seat_comfort">Seat Comfort</option>
+                <option value="inflight_entertainment">Inflight Entertainment</option>
+                <option value="onboard_service">Onboard Service</option>
+                <option value="leg_room_service">Leg Room Service</option>
+                <option value="baggage_handling">Baggage Handling</option>
+                <option value="checkin_service">Checkin Service</option>
+                <option value="inflight_service">Inflight Service</option>
+                <option value="cleanliness">Cleanliness</option>
+                <option value="departure_delay_in_minutes">Departure Delay in Minutes</option>
+                <option value="arrival_delay_in_minutes">Arrival Delay in Minutes</option>
+                <option value="satisfaction">Satisfaction</option>
+            </select>
+        </div>
+    </div>
+    <div class="row" style="margin-top:5%">
+        <div class="col-md-12">
+            <div class="chart" id="chart3">
+                <script>
+                    var graphs = {{plot | safe}};
+                    Plotly.plot('chart3',graphs[2],{});
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:5%">
+        <div class="col-md-6">
+            <div class="chart" id="chart">
+                <script>
+                    var graphs = {{plot | safe}};
+                    Plotly.plot('chart',graphs[0],{});
+                </script>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart" id="chart2">
+                <script>
+                    var graphs = {{plot | safe}};
+                    Plotly.plot('chart2',graphs[1],{});
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center footer" style="margin-top: 2%;">
+    <p class="column">© Copyright JofaWJ - 2021</p>
+</div>
+<script src="{{ url_for('static', filename='js/jquery-1.11.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plots.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content="width=device-width, initial-scale=1.0">
+    <title>H8 Model Deployment</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <style>
+        .fa-bars:hover {
+            color: grey !important;;
+        }
+        .dropdown-toggle::after {
+            display: none;
+        }
+        .footer {
+            position: relative;
+            left: 0;
+            right:0;
+            bottom: 0;
+            width: auto; 
+            padding: 1rem 1rem;
+            background-color: rgb(0, 0, 0);
+            color: white;
+            text-align: center;
+            height:50px;
+        }
+        .fa-question-circle {
+            color: black !important;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <i class="fas fa-plane fa-2x" style="color: white; margin-right:1%"></i><a class="navbar-brand" href="#" color="black">Airline Passenger Satisfaction</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="navbar-nav" style="margin-left: 74%;">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle " href="#" id="navbardrop" data-toggle="dropdown">
+                <i class="fas fa-bars fa-2x" aria-hidden="true" style="color: white; margin-right:1%"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="/">Home</a>
+                <a class="dropdown-item" href="/summary">Summary</a>
+                <a class="dropdown-item" href="/visualization">Visualization</a>
+                <a class="dropdown-item" href="/correlation">Correlation</a>
+                <a class="dropdown-item" href="/projects">Other Projects</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <div class="container" style="padding-left: 2vw; padding-right: 2vw">
+        <div>
+            <div class="ml-3 mr-3 mb-3 mt-3">
+                <H1 class='text-center mt-2'>Passenger's Form</H1>
+                <p class='text-center mt-2'>This prediction uses the help of the XGBoosting algorithm which aims to classify</p>
+            </div>
+            <div class="col-md-12 flexing mb-3 mt-3" >
+                <form action="{{url_for('predict') }}" method = "post" class="g-3 needs-validation">
+                    <div class="form-group mb-3 ml-3 mr-3">
+                        <H3 class='text-left mt-2 mb-3'>Airplane Information</H3>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Airplane Class</span>
+                              </div>
+                            <select class="form-select form-control" aria-label="Job" id="job" name="job" required="">
+                                <option class="form-control" selected="" disabled="" value="">Choose Class</option>
+                                <option value=0>Economic</option>
+                                <option value=1>Business</option>
+                                <option value=9>Economic Business</option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend ">
+                              <span class="input-group-text ">Type of Travel</span>
+                            </div>
+                            <select class="form-select form-control" id="education" name="education" required="">
+                                <option class="form-control" selected="" disabled="" value="">Choose Type of Travel</option>
+                                <option value=6>Personal Travel</option>
+                                <option value=5>Business Travel</option>
+                            </select>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Flight Distance</span>
+                              </div>
+                              <input type="number" min="0" step="1" class="form-control" placeholder="Flight Distance" aria-label="Distance" id="distance" name="distance" required="">
+                        </div>
+                    </div>
+                    <hr class="ml-3 mr-3">
+                    <div class="form-group mb-3 ml-3 mr-3 mt-3">
+                        <H3 class='text-left mt-2 mb-3'>Satisfaction Level</H3>
+                        <div class="input-group has-validation">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Onboard Service</span>
+                                  </div>
+                                <select class="form-select form-control" aria-label="OS" id="os" name="os" required="">
+                                    <option class="form-control" selected="" disabled="" value="">Choose Rating</option>
+                                    <option value=0>0</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                    <option value=3>3</option>
+                                    <option value=4>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group has-validation">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Inflight Service</span>
+                                  </div>
+                                <select class="form-select form-control" aria-label="IS" id="is" name="is" required="">
+                                    <option class="form-control" selected="" disabled="" value="">Choose Rating</option>
+                                    <option value=0>0</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                    <option value=3>3</option>
+                                    <option value=4>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group has-validation">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Checkin Service</span>
+                                  </div>
+                                <select class="form-select form-control" aria-label="CS" id="cs" name="cs" required="">
+                                    <option class="form-control" selected="" disabled="" value="">Choose Rating</option>
+                                    <option value=0>0</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                    <option value=3>3</option>
+                                    <option value=4>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group has-validation">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Leg Room Service</span>
+                                  </div>
+                                <select class="form-select form-control" aria-label="LRS" id="lrs" name="lrs" required="">
+                                    <option class="form-control" selected="" disabled="" value="">Choose Rating</option>
+                                    <option value=0>0</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                    <option value=3>3</option>
+                                    <option value=4>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group has-validation">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Inflight Wifi Service</span>
+                                  </div>
+                                <select class="form-select form-control" aria-label="IWS" id="iws" name="iws" required="">
+                                    <option class="form-control" selected="" disabled="" value="">Choose Rating</option>
+                                    <option value=0>0</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                    <option value=3>3</option>
+                                    <option value=4>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group has-validation">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Inflight Entertainment</span>
+                                  </div>
+                                <select class="form-select form-control" aria-label="IE" id="ie" name="ie" required="">
+                                    <option class="form-control" selected="" disabled="" value="">Choose Rating</option>
+                                    <option value=0>0</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                    <option value=3>3</option>
+                                    <option value=4>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group has-validation">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Baggage Handling</span>
+                                  </div>
+                                <select class="form-select form-control" aria-label="BH" id="bh" name="bh" required="">
+                                    <option class="form-control" selected="" disabled="" value="">Choose Rating</option>
+                                    <option value=0>0</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                    <option value=3>3</option>
+                                    <option value=4>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group has-validation">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Food and Drink</span>
+                                  </div>
+                                <select class="form-select form-control" aria-label="FNB" id="fnb" name="fnb" required="">
+                                    <option class="form-control" selected="" disabled="" value="">Choose Rating</option>
+                                    <option value=0>0</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                    <option value=3>3</option>
+                                    <option value=4>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group has-validation">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Cleenliness</span>
+                                  </div>
+                                <select class="form-select form-control" aria-label="CL" id="cl" name="cl" required="">
+                                    <option class="form-control" selected="" disabled="" value="">Choose Rating</option>
+                                    <option value=0>0</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                    <option value=3>3</option>
+                                    <option value=4>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group has-validation">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Seat Comfort</span>
+                                  </div>
+                                <select class="form-select form-control" aria-label="SC" id="sc" name="sc" required="">
+                                    <option class="form-control" selected="" disabled="" value="">Choose Rating</option>
+                                    <option value=0>0</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                    <option value=3>3</option>
+                                    <option value=4>4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group has-validation">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Online Boarding</span>
+                                  </div>
+                                <select class="form-select form-control" aria-label="OB" id="ob" name="ob" required="">
+                                    <option class="form-control" selected="" disabled="" value="">Choose Rating</option>
+                                    <option value=0>0</option>
+                                    <option value=1>1</option>
+                                    <option value=2>2</option>
+                                    <option value=3>3</option>
+                                    <option value=4>4</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="ml-3 mr-3">
+                    <div style="width:97%; padding:0 0px;">
+                        <button type="submit" class="btn btn-primary btn-block btn-md ml-3 mr-3">Predict</button>
+                    </div>
+                </form>
+                <hr class="mb-3 ml-3 mr-3 mt-3">
+                <div class="alert alert-primary mb-3 ml-3 mr-3 mt-3" id="prediction-result" class="prediction-result" role="alert">
+                    <i class="far fa-question-circle"></i> {{ message }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center footer" style="margin-top: 2%;">
+        <p class="column">© Copyright JofaWJ - 2021</p>
+    </div>
+    
+</body>
+
+
+
+</html>
