@@ -1,4 +1,4 @@
-# :airplane: Airplane-Passenger-Satisfaction
+# :airplane: Airplane Passenger Satisfaction
 
 This repository is about model and deployment that i made with Flask 
 
