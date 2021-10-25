@@ -2,7 +2,7 @@
 
 This repository is about model and deployment that i made with Flask 
 
-If you want to see my deployments in heroku, here is the link : achmadnaufalwj-p1mls2.herokuapp.com
+If you want to see my deployments in heroku, here is the link : https://achmadnaufalwj-p1mls2.herokuapp.com/
 
 ---
 ## Dataset Description
